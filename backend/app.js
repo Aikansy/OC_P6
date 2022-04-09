@@ -44,9 +44,13 @@ app.use((req, res, next) => {
 
 // 2-16 - Importation du router user.js
 const userRoutes = require("./routes/user");
+// 3-10 - Importation du router sauce
+const sauce = require("./routes/sauce");
 
-// 2-17 - Enregistrement des routes
+// 2-17 - Enregistrement des routes user
 app.use("/api/auth", userRoutes);
+// 3-11 - Enregistrement des routes sauce
+app.use("./api/sauces", sauce);
 
 // *************************************************************************************** EXPORT(S)
 

@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // 2-8 - Importation du model user
 const User = require("../models/User");
 
-// *********************************************************************************** CONTROLLER(S)
+// *********************************************************************** CONTROLLER(S) / EXPORT(S)
 
 // 2-9 - Création du controller signup
 exports.signup = (req, res, next) => {

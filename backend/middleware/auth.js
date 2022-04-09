@@ -3,6 +3,8 @@
 // 2-19 - Importation de JWT
 const jwt = require("jsonwebtoken");
 
+// *************************************************************************************** EXPORT(S)
+
 // 2-20 - Exportation de l'authentificateur
 module.exports = (req, res, next) => {
   try {
