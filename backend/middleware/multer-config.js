@@ -8,7 +8,7 @@ const multer = require("multer");
 // 3-3 - Création du dictionnaire MIME_TYPES
 const MIME_TYPES = {
   "image/jpg": "jpg",
-  "image/jpeg": "jpg",
+  "image/jpeg": "jpeg",
   "image/png": "png",
 };
 
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const fileName = file.originalname.split(" ").join("_");
     const extension = MIME_TYPES[file.mimetype];
-    callback(null, fileName + Date.now() + "." + extension);
+    callback(null, fileName + "_" + Date.now() + "." + extension);
   },
 });
 
