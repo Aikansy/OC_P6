@@ -1,11 +1,11 @@
 // *************************************************************************************** IMPORT(S)
 
-// 2-19 - Importation de JWT
+// Imports the jsonwebtoken package from Node
 const jwt = require("jsonwebtoken");
 
-// *************************************************************************************** EXPORT(S)
+// *********************************************************************************** MIDDLEWARE(S)
 
-// 2-20 - Exportation de l'authentificateur
+// Exports authorization middleware
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];

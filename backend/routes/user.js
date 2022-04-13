@@ -1,19 +1,19 @@
 // *************************************************************************************** IMPORT(S)
 
-// 2-11 - Importation du package EXPRESS avec require (method) pour créer le router
+// Imports the express framework
 const express = require("express");
-// 2-12 - Création du router avec Router (express method)
+// Imports express router with .Router() method from express
 const router = express.Router();
-// 2-13 - Configuration du router
+// Imports user controllers
 const userController = require("../controllers/user");
 
 // **************************************************************************************** ROUTE(S)
 
-// 2-14 - Création des deux routes POST (avec signup et login)
+// Intercept POST requests with their respective endpoints and redirect to the appropriate controllers
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 
 // *************************************************************************************** EXPORT(S)
 
-// 2-15 - Exportation du router
+// Exports the user router to access it from other files
 module.exports = router;

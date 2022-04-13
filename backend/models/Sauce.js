@@ -1,11 +1,11 @@
 // *************************************************************************************** IMPORT(S)
 
-// 4-3 - Importation de mongoose
+// Imports the mongoose package from Node
 const mongoose = require("mongoose");
 
 // ********************************************************************************* SCHEMA MODEL(S)
 
-// 4-5 - Création du schéma model sauce
+// Creates a data schema model for the sauces with .Schema() method from mongoose
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true },
@@ -22,5 +22,5 @@ const sauceSchema = mongoose.Schema({
 
 // *************************************************************************************** EXPORT(S)
 
-// 4-4 - Exportation du schéma model sauce
+// Exports the data schema model for the sauces with .model() method from mongoose to access it from other files
 module.exports = mongoose.model("Sauce", sauceSchema);

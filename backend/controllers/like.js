@@ -1,24 +1,23 @@
 // *************************************************************************************** IMPORT(S)
 
-// 5-3 - Importation du schema model sauce
+// Imports the data schema model for the sauces
 const modelSauce = require("../models/Sauce");
 
-// *********************************************************************** CONTROLLER(S) / EXPORT(S)
+// *********************************************************************************** MIDDLEWARE(S)
 
-// 5-4 - Création et exportation de likeDislike
+// Exports POST type middleware (for like and dislike feature)
 exports.likeDislike = (req, res, next) => {
   modelSauce
     .findOne({ _id: req.params.id })
     .then((sauce) => {
-      // LIKE === 1
+      // When a like added
       if (!sauce.usersLiked.includes(req.body.userId) && req.body.like === 1) {
-        // mise a jour de la base de donnée (operator mnongoDB $inc/$push)
         modelSauce
           .updateOne(
             { _id: req.params.id },
             {
-              $inc: { likes: 1 },
-              $push: { usersLiked: req.body.userId },
+              $inc: { likes: 1 }, // $inc (mongoDB operator) increments the filed likes by the specified value
+              $push: { usersLiked: req.body.userId }, // $push (mongoDB operator) appends the specified value to the filed usersLiked
             }
           )
           .then(() =>
@@ -29,15 +28,14 @@ exports.likeDislike = (req, res, next) => {
           .catch((error) => res.status(400).json({ error }));
       }
 
-      // LIKE === 0
+      // When a like is removed
       if (sauce.usersLiked.includes(req.body.userId) && req.body.like === 0) {
-        // mise a jour de la base de donnée (operator mnongoDB $inc/$pull)
         modelSauce
           .updateOne(
             { _id: req.params.id },
             {
-              $inc: { likes: -1 },
-              $pull: { usersLiked: req.body.userId },
+              $inc: { likes: -1 }, // $inc (mongoDB operator) increments the filed likes by the specified value
+              $pull: { usersLiked: req.body.userId }, // $pull (mongoDB operator) removes the specified value to the filed usersLiked
             }
           )
           .then(() =>
@@ -48,18 +46,17 @@ exports.likeDislike = (req, res, next) => {
           .catch((error) => res.status(400).json({ error }));
       }
 
-      // LIKE === -1 (DISLIKE === 1)
+      // When a dislike is added
       if (
         !sauce.usersDisliked.includes(req.body.userId) &&
         req.body.like === -1
       ) {
-        // mise a jour de la base de donnée (operator mnongoDB $inc/$push)
         modelSauce
           .updateOne(
             { _id: req.params.id },
             {
-              $inc: { dislikes: 1 },
-              $push: { usersDisliked: req.body.userId },
+              $inc: { dislikes: 1 }, // $inc (mongoDB operator) increments the filed dislikes by the specified value
+              $push: { usersDisliked: req.body.userId }, // $push (mongoDB operator) appends the specified value to the filed usersDisliked
             }
           )
           .then(() =>
@@ -70,18 +67,17 @@ exports.likeDislike = (req, res, next) => {
           .catch((error) => res.status(400).json({ error }));
       }
 
-      // LIKE === 0 (DISLIKE === 0)
+      // when a dislike is removed
       if (
         sauce.usersDisliked.includes(req.body.userId) &&
         req.body.like === 0
       ) {
-        // mise a jour de la base de donnée (operator mnongoDB $inc/$pull)
         modelSauce
           .updateOne(
             { _id: req.params.id },
             {
-              $inc: { dislikes: -1 },
-              $pull: { usersDisliked: req.body.userId },
+              $inc: { dislikes: -1 }, // $inc (mongoDB operator) increments the filed dislikes by the specified value
+              $pull: { usersDisliked: req.body.userId }, // $pull (mongoDB operator) removes the specified value to the filed usersDisiked
             }
           )
           .then(() =>

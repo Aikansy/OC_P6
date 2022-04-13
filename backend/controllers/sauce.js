@@ -1,13 +1,13 @@
 // *************************************************************************************** IMPORT(S)
 
-// 4-7 - Importation de FireSystem
+// Impots fileSystem from Node
 const fs = require("fs");
-// 4-6 - Importation du schema model sauce
+// Imports the data schema model for the sauces
 const modelSauce = require("../models/Sauce");
 
-// *********************************************************************** CONTROLLER(S) / EXPORT(S)
+// *********************************************************************************** MIDDLEWARE(S)
 
-// 4-8 - Création des routes sauce
+// Exports POST type middleware (for createSauce)
 exports.createSauce = (req, res, next) => {
   const sauceData = JSON.parse(req.body.sauce);
   delete req.body._id;
@@ -20,14 +20,13 @@ exports.createSauce = (req, res, next) => {
   });
   sauce
     .save()
-    .then(() => {
-      console.log(sauce);
-      res.status(201).json({ message: "The sauce was successfully created !" });
-    })
+    .then(() =>
+      res.status(201).json({ message: "The sauce was successfully created !" })
+    )
     .catch((error) => res.status(400).json({ error }));
 };
 
-// 4-8 - Création des routes sauce
+// Exports PUT type middleware (for modifySauce)
 exports.modifySauce = (req, res, next) => {
   if (req.file) {
     modelSauce
@@ -68,7 +67,7 @@ exports.modifySauce = (req, res, next) => {
   }
 };
 
-// 4-8 - Création des routes sauce
+// Exports DELETE type middleware (for deleteSauce)
 exports.deleteSauce = (req, res, next) => {
   modelSauce
     .findOne({ _id: req.params.id })
@@ -88,7 +87,7 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-// 4-8 - Création des routes sauce
+// Exports GET type middleware (for getOneSauce)
 exports.getOneSauce = (req, res, next) => {
   modelSauce
     .findOne({
@@ -98,7 +97,7 @@ exports.getOneSauce = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
-// 4-8 - Création des routes sauce
+// Exports GET type middleware (for getAllSauce)
 exports.getAllSauces = (req, res, next) => {
   modelSauce
     .find()

@@ -1,15 +1,15 @@
 // *************************************************************************************** IMPORT(S)
 
-// 2-7 - Importation de bcrypt
+// Imports the bcrypt package from Node
 const bcrypt = require("bcrypt");
-// 2-18 Importation de JWT
+// Imports the jsonwebtoken package from Node
 const jwt = require("jsonwebtoken");
-// 2-8 - Importation du model user
+// Imports the data schema model for the users
 const modelUser = require("../models/User");
 
-// *********************************************************************** CONTROLLER(S) / EXPORT(S)
+// *********************************************************************************** MIDDLEWARE(S)
 
-// 2-9 - Création du controller signup
+// Exports POST type middleware (for signup)
 exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-// 2-10 - Création du controller login
+// Exports POST type middleware (for login)
 exports.login = (req, res, next) => {
   modelUser
     .findOne({ email: req.body.email })

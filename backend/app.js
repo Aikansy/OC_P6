@@ -1,25 +1,29 @@
 // *************************************************************************************** IMPORT(S)
 
-// 1-4 - Importation du package EXPRESS avec require (method)
+// Imports the express framework
 const express = require("express");
-// 1-13 - Importation de mongoose
+// Imports the mongoose package from Node
 const mongoose = require("mongoose");
-// 5-1 - Importation de helmet
+// Imports helmet package from Node
 const helmet = require("helmet");
-// 4-9 - Importation de path
+// Imports path
 const path = require("path");
-// 1-14 - Importation de dotenv
-const dotenv = require("dotenv");
-dotenv.config();
-// 1-5 - Appel de EXPRESS pour créer l'application app express
-const app = express();
+// Imports user router
+const userRoutes = require("./routes/user");
+// Imports sauce router
+const sauceRoutes = require("./routes/sauce");
+// Imports and configures the dotenv package from Node
+require("dotenv").config();
 
 // ******************************************************************************* APP (APPLICATION)
 
-// 1-13 - Importation de mongoose (avec dotenv pour protéger l'ID et Mot de passe)
+// Creates express app by calling express() method
+const app = express();
+
+// Specifies the MongoDB database used for the app
 mongoose
   .connect(
-    `mongodb+srv://${process.env.USER}:${process.env.PWD}@piiquante.t9ezy.mongodb.net/piiquante?retryWrites=true&w=majority`, // 1-14-A - Modification ID & PASSWORD with dotenv
+    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@${process.env.DB}.t9ezy.mongodb.net/${process.env.DB}?retryWrites=true&w=majority`, // .env file protects the username and password for connecting to the database (.env added to .gitignore)
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connection to MongoDB successful"))
@@ -27,21 +31,20 @@ mongoose
 
 // *********************************************************************************** MIDDLEWARE(S)
 
-// 2-1 - Analyse du corp de la requête
+// Intercepts all requests (.use) with JSON content type and passes their content in req.body
 app.use(express.json());
-
-// 5-2 - Application de helmet (permittedCrossDomain)
+// Allows clients to upload cross-domain content
 app.use(helmet.permittedCrossDomainPolicies());
 
-// 2-2 - Ajout du middleware de traitement de tout type de requête (CORS)
+// Intercepts all requests (.use), allows communication between two servers of different origins and prevents the CORS security system from blocking calls
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allows access to the API from any origin
   res.setHeader(
-    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers", // Allows the following headers to be added to requests to the API
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
   res.setHeader(
-    "Access-Control-Allow-Methods",
+    "Access-Control-Allow-Methods", // Allows the following methods to be added to requests to the API
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
   next();
@@ -49,19 +52,14 @@ app.use((req, res, next) => {
 
 // **************************************************************************************** ROUTE(S)
 
-// 2-16 - Importation du router user.js
-const userRoutes = require("./routes/user");
-// 3-10 - Importation du router sauce
-const sauceRoutes = require("./routes/sauce");
-
-// 4-10 - Ajout du gestionnaire de routage image (ressource statique)
+// Registering the image router in the server as a static resource
 app.use("/images", express.static(path.join(__dirname, "images")));
-// 2-17 - Enregistrement des routes user
+// Registering the user router in the server with its endpoint
 app.use("/api/auth", userRoutes);
-// 3-11 - Enregistrement des routes sauce
+// Registering the sauce router in the server with its endpoint
 app.use("/api/sauces", sauceRoutes);
 
 // *************************************************************************************** EXPORT(S)
 
-// 1-6 - Exportation de l'application APP pour y avoir accès ailleurs
+// Exports app to access it from other files
 module.exports = app;

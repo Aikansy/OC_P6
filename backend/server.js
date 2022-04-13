@@ -1,16 +1,15 @@
 // *************************************************************************************** IMPORT(S)
 
-// 1-1 - NODE HTML package (require: import command)
+// Imports the HTTP package from Node
 const http = require("http");
-// 1-8 - Importation de l'application EXPRESS APP
+// Imports app
 const app = require("./app");
-// 1-14 - Importation de dotenv
-const dotenv = require("dotenv");
-dotenv.config();
+// Imports and configures the dotenv package from Node
+require("dotenv").config();
 
 // *********************************************************************************** NORMALIZEPORT
 
-// 1-11 - Ajout de normalizePort
+// normalizePort returns a valid port, whether supplied as a number or a string
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -23,13 +22,11 @@ const normalizePort = (val) => {
   return false;
 };
 const port = normalizePort(process.env.PORT || 3000);
-
-// 1-9 - Définition du port du serveur
 app.set("port", port);
 
 // ************************************************************************************ ERRORHANDLER
 
-// 1-12 - Ajout de errorHandler
+// errorHandler checks for different errors and handles them appropriately
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
     throw error;
@@ -55,17 +52,17 @@ const errorHandler = (error) => {
 
 // ********************************************************************************** BACKEND SERVER
 
-// 1-2 - Création du serveur avec createServer (method)
-const server = http.createServer(app); // 1-8-A - Remplace le paramètre de 1-2 par APP
+// Creates a server with the http command and the createServer() method (argument: app Function(s) that will be called on each request sent to the server)
+const server = http.createServer(app);
 
-// 1-12 - Ajout de errorHandler
+// Registering errorHandler in the server
 server.on("error", errorHandler);
-// 1-11 - Ajout de normalizePort
+// Registering a listener on the server with the defined port passed to normalizePort
 server.on("listening", () => {
   const address = server.address();
   const bind = typeof address === "string" ? "pipe " + address : "port " + port;
   console.log("Listening on " + bind);
 });
 
-// 1-3 - Lecture des requêtes avec listen (method(port du serveur))
+// Server waits and listens to the requests sent with listen() method (argument: Port)
 server.listen(port);

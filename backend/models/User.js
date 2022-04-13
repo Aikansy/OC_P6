@@ -1,21 +1,22 @@
 // *************************************************************************************** IMPORT(S)
 
-// 2-3 - Importation de mongoose
+// Imports the mongoose package from Node
 const mongoose = require("mongoose");
-// 2-5 - Importation du package mongoose-unique-validator
+// Imports the mongoose-unique-validator package
 const uniqueValidator = require("mongoose-unique-validator");
 
 // ********************************************************************************* SCHEMA MODEL(S)
 
-// 2-4 - Création du schéma model utilisateur
+// Creates a data schema model for the users with .Schema() method from mongoose
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 
-// 2-6 - Applique le validator au schéma model
+// Applies the mongoose-unique-validator to the data schema model with .plugin() method from mongoose
 userSchema.plugin(uniqueValidator);
 
 // *************************************************************************************** EXPORT(S)
 
+// Exports the data schema model for the users with .model() method from mongoose to access it from other files
 module.exports = mongoose.model("User", userSchema);

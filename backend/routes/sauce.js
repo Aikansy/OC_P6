@@ -1,31 +1,29 @@
 // *************************************************************************************** IMPORT(S)
 
-// 3-5 - Importation du package EXPRESS avec require (method)
+// Imports the express framework
 const express = require("express");
-// 3-6 - Importation du router avec Router (express method)
+// Imports express router with .Router() method from express
 const router = express.Router();
-
-// 3-7 - Importation de multer
+// Imports multer
 const multer = require("../middleware/multer-config");
-// 3-8 - Importation de auth
+// Imports auth
 const auth = require("../middleware/auth");
-
-// 4-1 - Importation de sauceController
+// Imports sauce controllers
 const sauceController = require("../controllers/sauce");
-// 5-2 - Importation de likeController
+// Imports like/dislike controllers
 const likeController = require("../controllers/like");
 
 // **************************************************************************************** ROUTE(S)
 
-// 4-2 - Création des routes sauce
+// Intercept typed requests with their respective endpoints, applie the authentication function (and multer) and redirect to the appropriate controllers
 router.post("/", auth, multer, sauceController.createSauce);
 router.put("/:id", auth, multer, sauceController.modifySauce);
 router.delete("/:id", auth, sauceController.deleteSauce);
 router.get("/:id", auth, sauceController.getOneSauce);
 router.get("/", auth, sauceController.getAllSauces);
-router.post("/:id/like", auth, likeController.likeDislike); // 5-1 - Ajout de la route post likeDislike
+router.post("/:id/like", auth, likeController.likeDislike);
 
 // *************************************************************************************** EXPORT(S)
 
-// 3-9 - Exportataion du router
+// Exports the sauce router to access it from other files
 module.exports = router;
